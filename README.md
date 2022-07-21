@@ -1,57 +1,172 @@
-# Template para projetos Java usando o Visual Studio Code
+# 4.1 // Associação, Agregação e Modelagem // Livraria
 
-Um _template_ é um projeto base, para não iniciar do zero e ter pelo menos uma estrutura mínima onde se apoiar.
+Use este link do GitHub Classroom para ter sua cópia alterável deste repositório: <>
 
-Antes de começar a desenvolver com este _template_ é necessário ter instalado o Java Software Development Kit (JDK), o editor Visual Studio Code (VSCode) e o utilitário de controle de versão de código _Git_.
+Implementar respeitando os fundamentos de Orientação a Objetos.
+
+**Tópicos desta atividade:** associações, dependências, agregações, modelagem
+
+---
+
+Implementar o sistema de livraria online. Todas as classes devem ser implementadas no pacote [model](src/model/) e importadas pelo [App.java](src/App.java). Casos de Teste:
+
+```java
+Editora editoraRecord = new Editora("Record");
+System.out.println(editoraRecord.getNome().equals("Record"));
+
+Editora editoraWMF = new Editora("WMF");
+System.out.println(editoraWMF.getNome().equals("WMF"));
+
+Editora editoraCompanhiaDeBolso = new Editora("Companhia de Bolso");
+System.out.println(editoraCompanhiaDeBolso.getNome().equals("Companhia de Bolso"));
+
+Autor autorGleiser = new Autor("Gleiser", "Marcelo");
+System.out.println(autorGleiser.getNomeCompleto().equals("Marcelo Gleiser"));
+System.out.println(autorGleiser.getSobrenome().equals("Gleiser"));
+System.out.println(autorGleiser.getNome().equals("Marcelo"));
+System.out.println(autorGleiser.toString().equals("Gleiser, Marcelo"));
+
+Autor autorSponville = new Autor("Sponville", "André Comte");
+System.out.println(autorSponville.getNomeCompleto().equals("André Comte Sponville"));
+System.out.println(autorSponville.getSobrenome().equals("Sponville"));
+System.out.println(autorSponville.getNome().equals("André Comte"));
+System.out.println(autorSponville.toString().equals("Sponville, André Comte"));
+
+Autor autorSagan = new Autor("Sagan", "Carl");
+System.out.println(autorSagan.getNomeCompleto().equals("Carl Sagan"));
+System.out.println(autorSagan.getSobrenome().equals("Sagan"));
+System.out.println(autorSagan.getNome().equals("Carl"));
+System.out.println(autorSagan.toString().equals("Sagan, Carl"));
+
+// Instanciação de um Livro
+Livro livroCaldeiraoAzul = new Livro("O caldeirão azul", autorGleiser, 2019, editoraRecord);
+System.out.println(livroCaldeiraoAzul.getTitulo().equals("O caldeirão azul"));
+// Note que o método getAutor retorna um Autor, portanto o equals
+System.out.println(livroCaldeiraoAzul.getAutor() == autorGleiser);
+System.out.println(livroCaldeiraoAzul.getAutor().equals(autorGleiser));
+System.out.println(livroCaldeiraoAzul.getAno() == 2019);
+// Note que o método getEditora retorna uma Editora, portanto o equals
+System.out.println(livroCaldeiraoAzul.getEditora() == editoraRecord);
+System.out.println(livroCaldeiraoAzul.getEditora().equals(editoraRecord));
+System.out.println(livroCaldeiraoAzul.toString().equals("Gleiser, Marcelo. O caldeirão azul. Ed. Record, 2019."));
+
+// Outros livros
+Livro livroCriacaoImperfeita = new Livro("Criação imperfeita", autorGleiser, 2010, editoraRecord);
+System.out.println(livroCriacaoImperfeita.getTitulo().equals("Criação imperfeita"));
+System.out.println(livroCriacaoImperfeita.getAutor().equals(autorGleiser));
+System.out.println(livroCriacaoImperfeita.getAno() == 2010);
+System.out.println(livroCriacaoImperfeita.getEditora().equals(editoraRecord));
+
+Livro livroPequenoTratado = new Livro("Pequeno tratado das grandes virtudes", autorSponville, 2016, editoraWMF);
+System.out.println(livroPequenoTratado.getTitulo().equals("Pequeno tratado das grandes virtudes"));
+System.out.println(livroPequenoTratado.getAutor().equals(autorSponville));
+System.out.println(livroPequenoTratado.getAno() == 2016);
+System.out.println(livroPequenoTratado.getEditora().equals(editoraWMF));
+
+Livro livroFelicidadeDesesperadamente = new Livro("A Felicidade, Desesperadamente", autorSponville, 2015, editoraWMF);
+System.out.println(livroFelicidadeDesesperadamente.getTitulo().equals("A Felicidade, Desesperadamente"));
+System.out.println(livroFelicidadeDesesperadamente.getAutor().equals(autorSponville));
+System.out.println(livroFelicidadeDesesperadamente.getAno() == 2015);
+System.out.println(livroFelicidadeDesesperadamente.getEditora().equals(editoraWMF));
+
+Livro livroMundoAssombrado = new Livro("O mundo assombrado pelos demônios", autorSagan, 2006, editoraCompanhiaDeBolso);
+System.out.println(livroMundoAssombrado.toString().equals("Sagan, Carl. O mundo assombrado pelos demônios. Ed. Companhia de Bolso, 2006."));
 
 
+// Um Usuario do Sistema terá um Perfil
+Perfil meuPerfil = new Perfil("Meu Nome Aqui");
+System.out.println(meuPerfil.getNome().equals("Meu Nome Aqui"));
 
-## Instalação e Configuração do JDK
-
-É necessário instalar o JDK a partir da versão 8, porém é recomendada versão 11-LTS (Long Term Support - suporte de longo prazo) ou até mesmo a 17-LTS.
-
-Para o Sistema Operacional (SO) Windows, ele pode ser obtido aqui <https://adoptium.net/?variant=openjdk11&jvmVariant=hotspot>. Siga as instruções de instalação e não esqueça de selecionar os opcionais durante o processo, especialmente a parte ⚠️ _"add Java to PATH"_.
-
-Para Sistemas Operacionais Linux/Debian, como Ubuntu, Pop OS, Mint, Elementary, etc, execute no terminal o comando `sudo apt install openjdk-11-jdk`, que a mágica vai acontecer.
-
-Para testar a instalação, seja no Windows ou Linux, abra o _Prompt_ de Comando (cmd) ou o Terminal e execute o compilador Java com `javac -version`. A saída deve ser algo com `javac 11.0.9.1`, ou outra versão.
+// Um perfil de usuário pode ter várias listas de desejos (ver como funciona em amazon.com.br)
+ArrayList listasDesejos = meuPerfil.getListasDeDesejos();
+System.out.println(listasDesejos.isEmpty()); // não há nenhuma lista
+System.out.println(listasDesejos.size() == 0); // não há nenhuma lista
 
 
+// Criando uma lista de desejos, armazena internamente e devolve
+ListaDesejos minhaLista = meuPerfil.novaListaDesejos("Minha lista", true); // true é pública, false é privada
+System.out.println(minhaLista != null);
+System.out.println(minhaLista.getNome().equals("Minha lista"));
+System.out.println(minhaLista.isPublica() == true);
+// agora há uma lista de desejos no perfil
+System.out.println(meuPerfil.getListasDeDesejos().isEmpty() == false);
+System.out.println(meuPerfil.getListasDeDesejos().size() == 1);
+// deve ser possível pegar a lista por índice e por nome
+System.out.println(meuPerfil.getListaDeDesejos(0) == minhaLista);
+System.out.println(meuPerfil.getListaDeDesejos("Minha lista") == minhaLista);
+// se não existe devolve null
+System.out.println(meuPerfil.getListaDeDesejos(1) == null);
+System.out.println(meuPerfil.getListaDeDesejos("Uma lista que não existe") == null);
 
-## Instalação e Configuração do Visual Studio Code (VSCode)
-
-O VSCode pode ser obtido aqui: <https://code.visualstudio.com/download>. A instalação é semelhante nos Sistemas Operacionais Windows e Linux.
-
-No Windows, abra o instalador e não esqueça de selecionar todos os opcionais, como _adicionar code ao path_ e _adicionar "abrir com code" ao menu_, por exemplo.
-
-No Linux, abra o arquivo `.deb` baixado no gerenciador de pacotes e instale normalmente conforme instruções de seu sistema operacional.
-
-Este _template_ possui uma pasta [.vscode](.vscode) com as extensões necessárias em [extensions.json](.vscode/extensions.json) e as configurações recomendadas em [settings.json](.vscode/settings.json) para um **ambiente de ensino** (configuração didática). Fique a vontade para alterá-los como achar melhor.
-
-A única extensão obrigatória é a _"vscjava.vscode-java-pack"_.
-
-A extensão _"EditorConfig"_ é bastante recomendada. Ela funciona junto com o arquivo [.editorconfig](.editorconfig) presente neste _template_ para padronizar a formatação dos códigos-fonte.
-
-Finalmente, se preferes o editor em Português, instale a extensão _Portuguese (Brazil) Language Pack for Visual Studio Code_.
-
-
-
-## Instalação e Configuração do Git
-
-O Git para Windows pode ser obtido neste link: <https://git-scm.com/download/win>. A instalação é simples e intuitiva. Como sempre, não esqueça dos opcionais, principalmente a opção _adicionar o git ao path_!
-
-Para Linux, o comando `sudo apt install git` no terminal faz tudo.
-
-Para verificar a instalação abra o _prompt_ ou um terminal e execute `git --version`. Se não acusou _"comando não encontrado"_ é porque está tudo funcionando perfeitamente.
+// adicionar dois livros à lista de desejos "Minha Lista"
+minhaLista.adicionar(livroCaldeiraoAzul); // pode ser pelo objeto devolvido
+meuPerfil.getListaDeDesejos(0).adicionar(livroPequenoTratado); // ou navegando no grafo
 
 
+// Listas de desejos têm livros, getLivros devolve o ArrayList com os livros
+ArrayList minhaListaLivros = minhaLista.getLivros();
+System.out.println(minhaListaLivros); // imprime os dois livros
+// quais livros? é acessível por getLivro(indice)
+System.out.println(minhaListaLivros.get(0).equals(livroCaldeiraoAzul));
+System.out.println(minhaLista.getLivro(0).equals(livroCaldeiraoAzul));
+System.out.println(minhaListaLivros.get(1).equals(livroPequenoTratado));
+System.out.println(minhaLista.getLivro(1).equals(livroPequenoTratado));
+// se não existe, volta null
+System.out.println(minhaLista.getLivro(2) == null);
+// getLivros() devolve o ArrayList então pode ser operado direto
+System.out.println(minhaLista.getLivros().get(0).equals(livroCaldeiraoAzul));
+System.out.println(minhaLista.getLivros().get(1).equals(livroPequenoTratado));
 
-## Códigos-fonte
 
-Considere adicionar os arquivos de código-fonte `.java` no diretório [src](./src/), como o exemplo [src/App.java](./src/App.java).
+// Criando uma nova lista de desejos que por sua vez pode ter mais livros
+ListaDesejos listaUrgente = meuPerfil.novaListaDesejos("Comprar Urgente", false);
+System.out.println(listaUrgente != null);
+System.out.println(listaUrgente.isPublica() == false);
+System.out.println(listaUrgente.isPrivada() == true);
+System.out.println(listaUrgente.getNome().equals("Comprar Urgente"));
 
+// Existem duas listas agora (getListasDeDesejos retorna ArrayList)
+System.out.println(meuPerfil.getListasDeDesejos().size() == 2);
 
+// não há livros na lista Comprar Urgente
+System.out.println(listaUrgente.getQuantidade() == 0);
+System.out.println(listaUrgente.isVazia() == true);
 
-## Licenciamento
+// adiciona o primeiro livro à lista Comprar Urgente
+listaUrgente.adicionar(livroFelicidadeDesesperadamente);
+// há um livro na lista Comprar Urgente
+System.out.println(listaUrgente.getQuantidade() == 1);
+System.out.println(listaUrgente.isVazia() == false);
 
-Este _template_ é _open source_ licenciado sob a GPL, assim como todos os projetos derivados dele. Mais detalhes em [LICENÇA.md](LICENÇA.md).
+// adiciona mais um livro à Minha Lista
+meuPerfil.getListaDesejos("Minha lista").adicionar(livroCriacaoImperfeita);
+// adiciona mais dois livros à Comprar Urgente
+meuPerfil.getListaDesejos("Comprar Urgente").adicionar(livroCriacaoImperfeita);
+meuPerfil.getListaDesejos("Comprar Urgente").adicionar(livroMundoAssombrado);
+
+// assumindo que a lista Comprar Urgente tem três livros
+// método getQuantidade é de ListaDesejos
+System.out.println(meuPerfil.getListaDesejos("Comprar Urgente").getQuantidade() == 3);
+System.out.println(meuPerfil.getListaDesejos("Comprar Urgente").getLivro(0).equals(livroFelicidadeDesesperadamente));
+// Assumindo que o segundo livro da lista Comprar Urgente é o Criação Imperfeita
+System.out.println(meuPerfil.getListaDesejos("Comprar Urgente").getLivro(1).equals(livroCriacaoImperfeita));
+// Assumindo que o terceiro livro da lista Comprar Urgente é o Mundo Assombrado
+System.out.println(meuPerfil.getListaDesejos("Comprar Urgente").getLivro(2).equals(livroMundoAssombrado));
+
+// navegando no grafo de objetos
+// Obtendo o nome do autor do primeiro livro da lista de desejos Minha Lista
+System.out.println(meuPerfil.getListaDesejos("Minha lista").getLivro(0).getAutor().getNome()); // Marcelo
+System.out.println(meuPerfil.getListaDesejos("Minha lista").getLivro(0).getAutor().getNome().equals("Marcelo"));
+// O sobrenome do autor do terceiro livro da lista de desejos Comprar Urgente
+System.out.println(meuPerfil.getListaDesejos("Comprar Urgente").getLivro(2).getAutor().getSobrenome());
+System.out.println(meuPerfil.getListaDesejos("Comprar Urgente").getLivro(2).getAutor().getSobrenome().equals("Sagan"));
+// Obtendo o nome da editora do terceiro livro da lista de desejos Comprar Urgente
+System.out.println(meuPerfil.getListaDesejos("Comprar Urgente").getLivro(2).getEditora().getNome());
+System.out.println(meuPerfil.getListaDesejos("Comprar Urgente").getLivro(2).getEditora().getNome().equals("Companhia de Bolso"));
+
+// Obtendo o título do segundo livro da segunda lista de desejos
+System.out.println(meuPerfil.getListaDesejos(1).getLivro(1).getTitulo().equals("Criação imperfeita"));
+```
+
+---
+Obs.: os casos de teste não podem ser alterados, mas outros podem ser adicionados. Fique a vontade para adicionar códigos que imprimem ou separam os testes, por exemplo.
